@@ -9,7 +9,12 @@ class ListAllUsersUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   execute({ user_id }: IRequest): User[] {
-    // Complete aqui
+    const userById = this.usersRepository.findById(user_id);
+    if (!userById) throw new Error("Bad Request");
+    if (!userById.admin) throw new Error("Bad request");
+
+    const allUsers = this.usersRepository.list();
+    return allUsers;
   }
 }
 
